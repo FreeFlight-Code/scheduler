@@ -7,16 +7,18 @@ export default class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
-      name: "",
-      date: "",
-      state: "",
-      city: "",
-      comments: '',
-      list: [],
-      details: []
-      // login_profile: profile
-    };
+      
+            //state is hard coded in to allow continued work, i will do an /auth/me query and take all the info off that, or maybe to a custom query...
+            firstname: 'David',
+            email: 'davidfisc@hotmailfake.com',
+            businessName: 'Target the french one',
+            business_id: 1,
+            link: 'http://www.google.com',
+            logo: 'https://www.independence.aero/files/images/artikelbilder/cruiser4.jpg',
+            auth: 'admin',
+            results:[{"jid":1,"businessname":"Target","firstname":"David","lastname":"Fischer","comments":"none","city":"riverton","state":"utah","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":2,"businessname":"Target","firstname":"David","lastname":"Fischer","comments":"none","city":"riverton","state":"utah","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":3,"businessname":"smiths","firstname":"rebecca","lastname":"Fischer","comments":"none","city":"las vegas","state":"utah","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":4,"businessname":"galls","firstname":"matt","lastname":"Fischer","comments":"none","city":"las vegas","state":"CA","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":5,"businessname":"winco","firstname":"matt","lastname":"Fischer","comments":"none","city":"las vegas","state":"CA","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1}]
+          }
+        
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDetails = this.handleDetails.bind(this);
     this.myDate = this.myDate.bind(this);

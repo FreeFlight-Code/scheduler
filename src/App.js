@@ -12,19 +12,19 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      email: "",
-      password: "",
-      businessName: "",
-      business_id: "",
-      link: "",
-      logo: "",
-      auth: ""
+      // email: "",
+      // password: "",
+      // businessName: "",
+      // business_id: "",
+      // link: "",
+      // logo: "",
+      auth: {}
     }
     this.setUserInfo = this.setUserInfo.bind(this);
   }
 
   setUserInfo (info) {
-    // alert(info);
+    console.log(info);
     this.setState({
       auth: info
     })

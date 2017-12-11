@@ -2,24 +2,24 @@
      display: flex;
  }
 .form_container {
-  
     height: 50vh;
-    width: 33%;
+    width: 80vw;
+    max-width: 1500px;
+    overflow-y: scroll;
     background-color: #777272;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-content: space-around;
     border: 2px solid black;
-
     padding: 20px 5px 5px 5px;
-    
 }
 
 .results {
-    
-    height: 100vh;
-    width: 100%;
+    height: 50vh;
+    width: 80vw;
+    max-width: 1500px;
+    overflow-y: scroll;
     text-align: center;
     Padding: 10px 60px;
     font-size: 30px;
