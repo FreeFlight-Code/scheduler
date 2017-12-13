@@ -1,2 +1,2 @@
 SELECT * FROM businesses
-  WHERE ID = $1
+  WHERE bid = $1
