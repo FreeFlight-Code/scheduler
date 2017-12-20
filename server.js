@@ -30,9 +30,9 @@ ENDPOINTS  SAMPLES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 // app.use(api.createDatabase);
 
-app.get('/api/addBusiness', api.addBusiness);
 app.get('/api/businesses', api.getBusinesses);
 app.get('/api/business/:id', api.getSingleBusiness);
+app.post('/api/addBusiness', api.addBusiness);
 
 app.get('/api/jobs', api.getJobs);
 app.get('/api/job/:id', api.getSingleJob);

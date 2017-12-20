@@ -4,21 +4,21 @@ module.exports = {
   //~~~~~~~~~~~~~~~~~~~~~~  QUERIES  ~~~~~~~~~~~~~~~~~~~~~
 
 
-  createDatabase: function (req, res) {
-    let db = req.app.get('db')
-    db.createDatabase().then((results) => {
-      console.log(results);
-      res.status(200);
-    }).catch((error) => {
-      console.log(error);
-      res.status(400).send(error);
-    })
-  },
+  // createDatabase: function (req, res) {
+  //   let db = req.app.get('db')
+  //   db.createDatabase().then((results) => {
+  //     console.log(results);
+  //     res.status(200);
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     res.status(400).send(error);
+  //   })
+  // },
 
   getBusinesses: function (req, res) {
     let db = req.app.get('db')
     db.getBusinesses().then((results) => {
-      // console.log(results);
+      console.log('retrieved all businesses');
       res.status(200).send(results);
     }).catch((error) => {
       console.log(error);
@@ -29,9 +29,8 @@ module.exports = {
   getSingleBusiness: function (req, res) {
     let db = req.app.get('db')
     const value = req.params.id;
-    // console.log(' in getsingle business api file id = ' + value)
     db.getSingleBusiness([value]).then((results) => {
-      // console.log(results);
+      console.log('get single business, id... ' + id);
       res.status(200).send(results);
     }).catch((error) => {
       console.log(error);
@@ -39,41 +38,49 @@ module.exports = {
     })
   },
 
-  createBusiness: function (req, res) {
-    let db = req.app.get('db')
-    db.createBusiness().then((results) => {
-      console.log(results);
-      res.status(200).send(results);
-    }).catch((error) => {
-      console.log(error);
-      res.status(400).send(error);
-    })
-  },
-
-  // updateBusiness: function (req, res) {
-  //   let db= req.app.get('db')
-  //   let name = req.body.business_name;
-  //   let redirect = req.body.redirect;
-  //   let logourl = req.body.logo;
-  //   db.updateBusiness([name, redirect, logourl]).then((results) => {
-  //     console.log(results);
-  //     res.status(200).send(results);
-  //   }).catch((error)=>{
-  //     console.log(error);
-  //     res.status(400).send(error);        
-  // })
-  // },
-  addBusiness: function (req, res) {
+  updateBusiness: function (req, res) {
+    console.log(req.body, 'req.body');
     let db= req.app.get('db')
-    const value = req.params.id;
-    db.addBusiness([value]).then((results) => {
+    let name = req.body.business_name;
+    let redirect = req.body.redirect;
+    let logourl = req.body.logo;
+    db.updateBusiness([name, redirect, logourl]).then((results) => {
       console.log(results);
       res.status(200).send(results);
     }).catch((error)=>{
+      console.log(error);
+      res.status(400).send(error);        
+  })
+  },
+
+  addBusiness: function (req, res) {
+    console.log(req.body, 'req-body')
+    let db= req.app.get('db');
+    let businessname = req.body.businessname;
+    let link = req.body.link;
+    let logo = req.body.logo;
+    db.getSingleBusiness([businessname]).then((result)=>{
+      if(result){
+        res.status(400).send('business name already in database')
+      }
+    })
+    db.addBusiness(
+        [
+          businessname,
+          link,
+          logo
+          ]
+    )
+    .then((res) => {
+    //   console.log(results, 'results from database');
+      res.status(200).send(res);
+    })
+    .catch((error)=>{
         console.log(error);
         res.status(400).send(error);        
     })
   },
+
   addJob: function (req, res) {
     let db= req.app.get('db')
     console.log(req.body.user, 'body.user');
@@ -98,6 +105,7 @@ module.exports = {
   },
 
   getJobs: function (req, res) {
+    // console.log(req.app.get, 'req in getjobs')
     let db = req.app.get('db')
     db.getJobs().then((results) => {
       console.log(results)

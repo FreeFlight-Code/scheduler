@@ -8,12 +8,12 @@ export default class Client_Form extends Component {
     super(props);
     this.state = {
       jobName: '',
-      busName: this.props.auth.busName,
-      busId: this.props.auth.busId,
-      custId: this.props.auth.custId,
-      custName: this.props.auth.custName,
-      custEmail: this.props.auth.custEmail,
-      custAuth: this.props.auth.custAuth,
+      busName: 'this.props.auth.busName',
+      busId: 'this.props.auth.busId',
+      custId: 'this.props.auth.custId',
+      custName: 'this.props.auth.custName',
+      custEmail: 'this.props.auth.custEmail',
+      custAuth: 'this.props.auth.custAuth',
       date: "",
       state: "",
       city: "",

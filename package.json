@@ -1,5 +1,6 @@
 {
   "name": "scheduler",
+  "homepage": "http://freeflight-code.github.io/scheduler",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
