@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import '../styles/_Login.scss';
-// import axios from 'axios';
+import axios from 'axios';
 
 class Login extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      businessname: '',
-      business_homepage_url: '',
-      business_logo_url: '',
-      user_firstname: '',
-      user_lastname: '',
-      user_birthday: '',
-      user_password: '',
-      user_email: '',
+      businessname: 'David business',
+      business_homepage_url: 'http://redtime.com',
+      business_logo_url: 'http://img.com/me_pic',
+      user_firstname: 'Davidtest',
+      user_lastname: 'Fischer',
+      user_birthday: '05/07/1977',
+      user_password: 'test123',
+      user_email: 'davifisc@hotmail.com',
       abletologin: false
     }
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -23,44 +23,74 @@ class Login extends Component {
   }
 
   handleInputChange(e, str) {
+    e = e.toLowercase();
     this.setState({
       [str]: e
     })
-    console.log(this.state);
+    if (this.state.user_password) {
+      if (this.state.user_email) {
+        this.setState({
+          abletologin: true,
+        })
+        console.log(this.state)
+        // this.props.setUserInfo(this.state);
+        // this.props.history.push('/scheduler');
+      }
+    }
+  }
+  disableToggle(element, input) {
+    var elem = document.getElementById(element);
+    console.log(elem.attribute)
   }
 
   handleSubmit() {
+    const profile = this.state;
 
-      if(this.state.user_password){
-        if(this.state.user_email){
-          this.setState({
-            abletologin: true,
-          })
-          this.props.setUserInfo(this.state);
-          this.props.history.push('/scheduler');
-        } else {
-          alert('Please enter an email')
-              }
-            } else {
-            alert('Please enter a password');
+    if (this.state.user_password) {
+      if (this.state.user_email) {
+        
+        // this.props.history.push('/scheduler');
+
+        axios.post('/login', profile)
+        .then((res)=>{
+          if (res){
+            console.log(res,'res')
+          // this.props.setUserInfo(profile)
           }
-    
+        })
+        .catch((err)=>console.log(err, 'problem sending profile'))
+      } else {
+        alert('Please enter an email')
+      }
+    } else {
+      alert('Please enter a password');
     }
 
-    // submitButtonActive();
-    // if (this.state.abletologin) {
-    //   this.props.setUserInfo(this.state);
-    //   this.props.history.push('/scheduler');
-    // }
-    // console.log('error on submit')
+  }
+
+  // submitButtonActive();
+  // if (this.state.abletologin) {
+  //   this.props.setUserInfo(this.state);
+  //   this.props.history.push('/scheduler');
+  // }
+  // console.log('error on submit')
   // }
 
   render() {
+    // const disabledButtonToggle = ()=>{
+    //   if (this.state.abletologin===true){
+    //     document.getElementbyId("formSubmitButton") "disabled=true";
+    //   } else {
+    //     return "disabled=true";
+    //   }
+    
+    // }
+      
 
     return (
       <div className="Login">
         <div className=" login container">
-          <div className="returnlogin">return customer?</div>
+          {/* <div className="returnlogin">return customer?</div>*/}
           <div className="title">New Business Registration</div>
 
 
@@ -91,7 +121,7 @@ class Login extends Component {
             <p className='login label'>email</p>
             <input onChange={(e) => { this.handleInputChange(e.target.value, 'user_email') }} className='input login' type="text" placeholder='required to login' />
 
-            <input onClick={() => { this.handleSubmit() }} type="submit" className='submitbutton' />
+            <input id="formSubmitButton" onClick={() => { this.handleSubmit() }} type="submit" className='submitbutton' />
           </div>
         </div>
       </div>

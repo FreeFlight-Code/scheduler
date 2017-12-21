@@ -1,4 +1,16 @@
-SELECT Businesses.business_name, Businesses.logo, Businesses.redirect, customers.bus_id, customers.id, customers.name, customers.email, customers.phone, customers.auth, customers.password
-FROM customers
-Right JOIN businesses ON Customers.bus_id=Businesses.id
-WHERE customers.email = $1;
+SELECT 
+Businesses.businessname, 
+Businesses.logo, 
+Businesses.link, 
+users.uid, 
+users.firstname, 
+users.lastname, 
+users.email, 
+users.birthday, 
+users.password,
+users.comments,
+users.auth, 
+users.bid 
+FROM users
+Right JOIN businesses ON users.bid=businesses.bid
+WHERE users.email = $1;

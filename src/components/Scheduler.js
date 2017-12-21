@@ -8,24 +8,21 @@ class Scheduler extends Component {
   constructor(props) {
     super(props)
     this.state = {
-
-      //state is hard coded in to allow continued work, i will do an /auth/me query and take all the info off that, or maybe to a custom query...
-      firstname: 'David_me',
-      email: 'davidfisc@hotmailfake.com',
-      businessName: 'Target the french one',
-      business_id: 1,
-      link: 'http://www.google.com',
-      logo: 'https://www.independence.aero/files/images/artikelbilder/cruiser4.jpg',
-      auth: 'client',
-      results:[{"jid":1,"businessname":"TTT","firstname":"David","lastname":"Fischer","comments":"none","city":"riverton","state":"utah","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":2,"businessname":"TGH","firstname":"David","lastname":"Fischer","comments":"none","city":"riverton","state":"utah","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":3,"businessname":"smiths","firstname":"rebecca","lastname":"Fischer","comments":"none","city":"las vegas","state":"utah","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":4,"businessname":"galls","firstname":"matt","lastname":"Fischer","comments":"none","city":"las vegas","state":"CA","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1},{"jid":5,"businessname":"winco","firstname":"matt","lastname":"Fischer","comments":"none","city":"las vegas","state":"CA","today":"2017-12-10T07:00:00.000Z","jobdate":"2077-07-07T06:00:00.000Z","bid":1,"uid":1}]
-    }
   }
-
+  }
 
 
   componentWillMount() {
 
     //query auth/me then redirect to login if fails
+    // axios.get('/auth', ).then((res)=>{
+    //   console.log(res.data, 'res.data returned from auth')
+    // }).then
+    (axios.get('/auth/me').then((res)=>{
+        if(res.data){
+          console.log("user data retrieve successful", res.data)
+        }
+      }).catch(console.log('no user returned err')))
 
 
     // get business and jobs from user email/id

@@ -37,7 +37,7 @@ app.post('/api/addBusiness', api.addBusiness);
 app.get('/api/jobs', api.getJobs);
 app.get('/api/job/:id', api.getSingleJob);
 app.get('/api/jobSingleCustomer/:id', api.getJobsSingleCustomer);
-app.post('/api/addjob', api.addJob);
+// app.post('/api/addjob', api.addJob);
 
 
 ///~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Massive~~~~~~~~~`
@@ -89,15 +89,19 @@ passport.use(new Auth0Strategy({
 app.get('/auth', passport.authenticate('auth0'));
 
 app.post('/client_auth', api.login);
-app.post('/login', api.addUser, api.login, api.sessionAuth);
+app.post('/login',
+    api.addUser,
+    api.login,
+    api.sessionAuth
+);
 
 app.get('/sessionAuth', api.sessionAuth);
 
 
 //redirects
 app.get('/auth/callback', passport.authenticate('auth0', {
-    successRedirect: 'http://localhost:3000/login/scheduler',
-    failureRedirect: 'http://localhost:3000/'
+    successRedirect: 'http://localhost:3000/scheduler',
+    failureRedirect: 'http://localhost:3000/login'
     }))
 
 passport.serializeUser(function(user, done) {

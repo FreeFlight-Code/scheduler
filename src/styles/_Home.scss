@@ -1,12 +1,13 @@
 .Home{
     background-color: rgb(230, 230, 230);
+    overflow: hidden;
     height:100vh;
-    width:100vw;
+    width:100%;
     display: flex;
     flex-direction: column;
     // justify-content: center;
     align-items: center;
-    padding-top:50px;
+    padding-top:20px;
     .title {
         font-size: 5em;
         margin:25px;
@@ -28,8 +29,8 @@
 }
 
 .img {
-    height:33vh;
-    width:33vh;
+    height:31vh;
+    width:31vh;
     overflow: hidden;
     border-radius: 300px;
     img{

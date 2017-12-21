@@ -24,7 +24,7 @@ class App extends Component {
   }
 
   setUserInfo (info) {
-    console.log(info);
+    console.log(info, 'state transfered to app');
     this.setState({
       auth: info
     })

@@ -38,70 +38,33 @@ module.exports = {
     })
   },
 
-  updateBusiness: function (req, res) {
-    console.log(req.body, 'req.body');
-    let db= req.app.get('db')
-    let name = req.body.business_name;
-    let redirect = req.body.redirect;
-    let logourl = req.body.logo;
-    db.updateBusiness([name, redirect, logourl]).then((results) => {
-      console.log(results);
-      res.status(200).send(results);
-    }).catch((error)=>{
-      console.log(error);
-      res.status(400).send(error);        
-  })
-  },
 
   addBusiness: function (req, res) {
     console.log(req.body, 'req-body')
-    let db= req.app.get('db');
+    let db = req.app.get('db');
     let businessname = req.body.businessname;
     let link = req.body.link;
     let logo = req.body.logo;
-    db.getSingleBusiness([businessname]).then((result)=>{
-      if(result){
+    db.getSingleBusiness([businessname]).then((result) => {
+      if (result) {
         res.status(400).send('business name already in database')
       }
     })
     db.addBusiness(
-        [
-          businessname,
-          link,
-          logo
-          ]
+      [
+        businessname,
+        link,
+        logo
+      ]
     )
-    .then((res) => {
-    //   console.log(results, 'results from database');
-      res.status(200).send(res);
-    })
-    .catch((error)=>{
+      .then((res) => {
+        //   console.log(results, 'results from database');
+        res.status(200).send(res);
+      })
+      .catch((error) => {
         console.log(error);
-        res.status(400).send(error);        
-    })
-  },
-
-  addJob: function (req, res) {
-    let db= req.app.get('db')
-    console.log(req.body.user, 'body.user');
-    let {custId, date, city, state, comments, jobName, busId,} = req.body.user;
-      console.log(custId, 'custId')
-      
-      db.addJob([
-      custId,
-      date,
-      city,
-      state,
-      comments,
-      jobName,
-      busId,
-       ]).then((results) => {
-      console.log('Job added', results);
-      res.status(200).send('Job added...');
-    }).catch((error)=>{
-        console.log(error);
-        res.status(400).send(error);        
-    })
+        res.status(400).send(error);
+      })
   },
 
   getJobs: function (req, res) {
@@ -115,7 +78,7 @@ module.exports = {
       res.status(400).send(error);
     })
   },
-  
+
   getSingleJob: function (req, res) {
     let db = req.app.get('db')
     const value = req.params.id;
@@ -138,51 +101,75 @@ module.exports = {
       res.status(400).send(error);
     })
   },
-addUser: function (req, res, next) {
-  // console.log('in adduser');
+  addUser: function (req, res, next) {
+    let auth = 'client';
+    let db = req.app.get('db');
+    let { user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url } = req.body;
+    console.log('entered addUser');
+    // console.log(req.body, 'req.body coming from frontend');
 
-  let auth = 'client';
-  let db = req.app.get('db');
-  let { email, password, business_id} = req.body;
-  db.login([email, password, business_id, auth]).then(res => {
-  if (res[0]) {
-    next();
-  } 
-  else
-    db.adduser([email, password, business_id, auth]).then((results2) => {
-      res.push(results2[0]);
-  //     console.log('adduser ', res);
-      res.status(200).send(res)
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).send(error);
-    })
-    })
+    db.login([user_email])
+      .then((res) => {
+        //existing user go to login
+        if (res[0]) {
+          // console.log(res[0], 'existing user')
+          next();
+          //no user add business then user
+        } else if (businessname) {
+          console.log(businessname, 'business information sent from frontend')
+          db.addBusiness([businessname, business_homepage_url, business_logo_url])
+            //res returns business name
+            .then((res) => {
+              console.log(res, 'business added with name... ' + businessname)
+              //business id is returned
+              return res;
+              console.log(res[0], 'returned from addbusiness');
+            })
+
+            .then((res) => {
+              let bid = res
+              let admin = "admin"
+              db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url, admin, bid])
+            })
+
+            .then(() => console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as admin for' + businessname))
+        } else {
+          let auth = "client"
+          db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url, auth])
+            .then(() => console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as client'))
+        }
+      }).catch((err => err))
   },
 
   login: function (req, res, next) {
-    // console.log('in login');
-    // let id = req.params.id;
-
+    let { user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url } = req.body;
+    let id;
+    console.log(req.body, 'req.body in login');
+    if (req.params.id) {
+      id = req.params.id;
+    }
     let db = req.app.get('db')
-    let { email, password, business_id} = req.body;
-    db.login(email).then((results) => {
-      if (results[0].password !== password) {
+    db.login([user_email]).then((results) => {
+      if (results[0].password !== user_password) {
         res.status(400).send('login failure');
-      } else 
-      if (results[0].password === password) {
-      next();
-  }})
-},
+      } else
+        if (results[0].password === user_password) {
+          next();
+        }
+    }
+    ).catch(err => err)
+  },
 
-sessionAuth: function (req, res) {
-  let db = req.app.get('db')
-  let { email, password, business_id} = req.body;  
-  db.loginb(email).then((results) => {
-    res.status(200).send({user: results[0], redirect: '/login/scheduler'})
- 
-})},
+  sessionAuth: function (req, res) {
+    console.log('session auth entered')
+    let db = req.app.get('db')
+    let { user_email, user_password } = req.body;
+    db.loginb(user_email).then((results) => {
+      // console.log(results, 'results from login')
+      res.status(200).send({ user: results[0], redirect: '/login/scheduler' })
+
+    })
+  },
 
 
 

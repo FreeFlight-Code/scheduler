@@ -1,2 +1,2 @@
-insert into businesses (business_name)
+insert into businesses (businessname)
 values ('$1');
