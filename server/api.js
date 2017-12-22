@@ -30,7 +30,7 @@ module.exports = {
     let db = req.app.get('db')
     const value = req.params.id;
     db.getSingleBusiness([value]).then((results) => {
-      console.log('get single business, id... ' + id);
+      console.log('get single business, id... ' + value);
       res.status(200).send(results);
     }).catch((error) => {
       console.log(error);
@@ -111,8 +111,8 @@ module.exports = {
     db.login([user_email])
       .then((res) => {
         //existing user go to login
-        if (res[0]) {
-          // console.log(res[0], 'existing user')
+        console.log(res && res['0'] && res['0'].uid, 'is there a user id')
+        if (res && res['0'] && res['0'].uid) {
           next();
           //no user add business then user
         } else if (businessname) {
@@ -128,6 +128,7 @@ module.exports = {
             
             //no match to user email and info on businessname
             .then((res) => {
+              console.log(res)
               var comments = '', bid = 1, auth = 'admin';
               
                         db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, comments, auth, bid])
@@ -137,7 +138,8 @@ module.exports = {
 
             //no match to user email and no info on businessname
         } else {
-          var comments = '', bid = 1, auth = 'client';
+          var bid = req.params.id;
+          var comments = '', auth = 'client';
 
           db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, comments, auth, bid])
             .then(() => console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as client'))
@@ -155,12 +157,11 @@ module.exports = {
     let db = req.app.get('db')
     // db.login(user_email).then((res)=>console.log('results'))
     db.login([user_email]).then((results) => {
-      console.log(results, 'results from sql login request')
-      console.log()
-      if (results[0].password !== user_password) {
+      console.log(results, 'results from sql login request');
+      if (results['0'].password !== user_password) {
         res.status(400).send('login failure');
       } else
-        if (results[0].password === user_password) {
+        if (results['0'].password === user_password) {
           next();
         }
     }

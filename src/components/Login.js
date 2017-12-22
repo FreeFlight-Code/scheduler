@@ -14,7 +14,19 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.submitButtonActive = this.submitButtonActive.bind(this);
   }
-
+  componentWillMount() {
+    let id = (this.props.location.pathname.split('/').pop());
+    if (id>0){
+    axios.get('/api/singleBusiness/' + id)
+    .then((res)=>{
+      let data = res.data[0];
+      this.setState({
+        data
+      })
+      console.log('state', this.state)
+    })
+    .catch(err=>err)}
+  }
   handleInputChange(e, str) {
     e = e.toLowerCase();
     this.setState({
@@ -25,9 +37,6 @@ class Login extends Component {
         this.setState({
           abletologin: true,
         })
-        // console.log(this.state)
-        // this.props.setUserInfo(this.state);
-        // this.props.history.push('/scheduler');
       }
     }
   }
@@ -38,11 +47,11 @@ class Login extends Component {
 
   handleSubmit() {
     const profile = this.state;
-
+    let id = (this.props.location.pathname.split('/').pop());
     if (this.state.user_password) {
       if (this.state.user_email) {
 
-        axios.post('/login', profile)
+        axios.post('/login/'+id, profile)
         .then((res)=>{
           if (res && res.data && res.data.user){
 
@@ -57,36 +66,14 @@ class Login extends Component {
     } else {
       alert('Please enter a password');
     }
-
   }
 
-  // submitButtonActive();
-  // if (this.state.abletologin) {
-  //   this.props.setUserInfo(this.state);
-  //   this.props.history.push('/scheduler');
-  // }
-  // console.log('error on submit')
-  // }
-
   render() {
-    // const disabledButtonToggle = ()=>{
-    //   if (this.state.abletologin===true){
-    //     document.getElementbyId("formSubmitButton") "disabled=true";
-    //   } else {
-    //     return "disabled=true";
-    //   }
-    
-    // }
-      
-
-    return (
-      <div className="Login">
-        <div className=" login container">
-          {/* <div className="returnlogin">return customer?</div>*/}
-          <div className="title">New Business Registration</div>
-
-
-          {/*This is the input boxes below this line*********************/}
+    const adminAndClientRender = ()=>{
+      if (!(this.state.data && this.state.data.bid) ){
+        return(
+          <div>
+        <div className="title">New Business Registration</div>
           <p className='login label'>Business Name</p>
           <input onChange={(e) => { this.handleInputChange(e.target.value, 'businessname') }} className='input login' type="text" placeholder='' />
 
@@ -95,8 +82,19 @@ class Login extends Component {
 
           <p className='login label'>LOGO URL</p>
           <input onChange={(e) => { this.handleInputChange(e.target.value, 'business_logo_url') }} className='input login' type="text" placeholder='' />
+          </div>
+        )} else {
+          return (
+            
+            <img className='image avatar login'src={this.state.data.logo} alt="logo" />)
+        }
+    }
+    return (
+      <div className="Login">
+        <div className=" login container">
+          {adminAndClientRender()}
 
-          <div className="admininfo"><div id='admininfo'>Admin Info</div>
+          <div className="admininfo"><div id='admininfo'>{!this.state.data ? 'Admin Info':'Register Here'}</div>
 
             <p className='login label'>First Name</p>
             <input onChange={(e) => { this.handleInputChange(e.target.value, 'user_firstname') }} className='input login' type="text" placeholder='' />

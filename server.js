@@ -31,7 +31,7 @@ ENDPOINTS  SAMPLES
 // app.use(api.createDatabase);
 
 app.get('/api/businesses', api.getBusinesses);
-app.get('/api/business/:id', api.getSingleBusiness);
+app.get('/api/singleBusiness/:id', api.getSingleBusiness);
 app.post('/api/addBusiness', api.addBusiness);
 
 app.get('/api/jobs', api.getJobs);
@@ -89,7 +89,7 @@ passport.use(new Auth0Strategy({
 app.get('/auth', passport.authenticate('auth0'));
 
 app.post('/client_auth', api.login);
-app.post('/login',
+app.post('/login/:id',
     api.addUser,
     api.login,
     api.sessionAuth
