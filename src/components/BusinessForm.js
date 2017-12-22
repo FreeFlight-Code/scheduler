@@ -21,8 +21,9 @@ export default class Form extends Component {
     }
 
     componentWillMount() {
+        let data = this.props.auth
         this.setState({
-            ...this.props.results
+            ...data
         })
         console.log(this.state, 'state')
         console.log(this.props, 'props')
@@ -38,8 +39,8 @@ export default class Form extends Component {
     }
 
     updateSearchOnState (e, searchType) {
-        //dev fix once all data in database is caps uncomment this
-        // e = e.toUpperCase();
+
+        e = e.toUpperCase();
         this.setState({
             [searchType]:e
         })
@@ -48,7 +49,10 @@ export default class Form extends Component {
     render() {
 
 const backendResults = ()=>{
-    let data = this.state.results;
+    let data = [];
+    if (this.state && this.state.results){
+        data = this.state.results;
+    }
     
     
     //filters
@@ -70,13 +74,13 @@ const backendResults = ()=>{
     }
 
     //render
-    if (data.length===0) return "No Results";
-    else if (data.length>0){
+    
+    if (data.length && data.length>0){
         return data.map((e, i, array)=>{
             return <div key={i}>{e.businessname}</div>
         })
-    }
-    else console.log('unknown input')
+    } else return "No Results";
+
 
 }
         return (

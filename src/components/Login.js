@@ -7,14 +7,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      businessname: 'David business',
-      business_homepage_url: 'http://redtime.com',
-      business_logo_url: 'http://img.com/me_pic',
-      user_firstname: 'Davidtest',
-      user_lastname: 'Fischer',
-      user_birthday: '05/07/1977',
-      user_password: 'test123',
-      user_email: 'davifisc@hotmail.com',
+
       abletologin: false
     }
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -23,7 +16,7 @@ class Login extends Component {
   }
 
   handleInputChange(e, str) {
-    e = e.toLowercase();
+    e = e.toLowerCase();
     this.setState({
       [str]: e
     })
@@ -32,7 +25,7 @@ class Login extends Component {
         this.setState({
           abletologin: true,
         })
-        console.log(this.state)
+        // console.log(this.state)
         // this.props.setUserInfo(this.state);
         // this.props.history.push('/scheduler');
       }
@@ -48,14 +41,13 @@ class Login extends Component {
 
     if (this.state.user_password) {
       if (this.state.user_email) {
-        
-        // this.props.history.push('/scheduler');
 
         axios.post('/login', profile)
         .then((res)=>{
-          if (res){
-            console.log(res,'res')
-          // this.props.setUserInfo(profile)
+          if (res && res.data && res.data.user){
+
+          this.props.setUserInfo(res.data.user);
+          this.props.history.push('/scheduler');
           }
         })
         .catch((err)=>console.log(err, 'problem sending profile'))

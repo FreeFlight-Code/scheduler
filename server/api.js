@@ -102,7 +102,7 @@ module.exports = {
     })
   },
   addUser: function (req, res, next) {
-    let auth = 'client';
+    // let auth = 'client';
     let db = req.app.get('db');
     let { user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url } = req.body;
     console.log('entered addUser');
@@ -116,26 +116,30 @@ module.exports = {
           next();
           //no user add business then user
         } else if (businessname) {
-          console.log(businessname, 'business information sent from frontend')
+          // console.log(businessname, 'business information sent from frontend')
           db.addBusiness([businessname, business_homepage_url, business_logo_url])
             //res returns business name
             .then((res) => {
               console.log(res, 'business added with name... ' + businessname)
+              // console.log(res[0], 'returned from addbusiness');
               //business id is returned
               return res;
-              console.log(res[0], 'returned from addbusiness');
             })
-
+            
+            //no match to user email and info on businessname
             .then((res) => {
-              let bid = res
-              let admin = "admin"
-              db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url, admin, bid])
+              var comments = '', bid = 1, auth = 'admin';
+              
+                        db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, comments, auth, bid])
             })
 
             .then(() => console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as admin for' + businessname))
+
+            //no match to user email and no info on businessname
         } else {
-          let auth = "client"
-          db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url, auth])
+          var comments = '', bid = 1, auth = 'client';
+
+          db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, comments, auth, bid])
             .then(() => console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as client'))
         }
       }).catch((err => err))
@@ -144,12 +148,15 @@ module.exports = {
   login: function (req, res, next) {
     let { user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url } = req.body;
     let id;
-    console.log(req.body, 'req.body in login');
+    // console.log(req.body, 'req.body in login');
     if (req.params.id) {
       id = req.params.id;
     }
     let db = req.app.get('db')
+    // db.login(user_email).then((res)=>console.log('results'))
     db.login([user_email]).then((results) => {
+      console.log(results, 'results from sql login request')
+      console.log()
       if (results[0].password !== user_password) {
         res.status(400).send('login failure');
       } else
@@ -165,8 +172,8 @@ module.exports = {
     let db = req.app.get('db')
     let { user_email, user_password } = req.body;
     db.loginb(user_email).then((results) => {
-      // console.log(results, 'results from login')
-      res.status(200).send({ user: results[0], redirect: '/login/scheduler' })
+      console.log(results, 'results from login')
+      res.status(200).send({ user: results[0], redirect: '/scheduler' })
 
     })
   },
