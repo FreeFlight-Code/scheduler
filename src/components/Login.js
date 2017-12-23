@@ -23,7 +23,7 @@ class Login extends Component {
       this.setState({
         data
       })
-      console.log('state', this.state)
+      // console.log('state', this.state)
     })
     .catch(err=>err)}
   }

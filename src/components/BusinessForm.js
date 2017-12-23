@@ -13,9 +13,9 @@ export default class Form extends Component {
             searchDate: ""
         }
 
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleDetails = this.handleDetails.bind(this);
-        this.myDate = this.myDate.bind(this);
+
+        // this.handleDetails = this.handleDetails.bind(this);
+
         this.updateSearchOnState = this.updateSearchOnState.bind(this);
 
     }

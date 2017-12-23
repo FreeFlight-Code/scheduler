@@ -94,7 +94,7 @@ module.exports = {
     let db = req.app.get('db')
     const value = req.params.id;
     db.getJobsSingleCustomer([value]).then((results) => {
-      // console.log('jobs singlecustomer backend...' + results);
+      console.log('jobs singlecustomer backend...' + results);
       res.status(200).send(results);
     }).catch((error) => {
       console.log(error);

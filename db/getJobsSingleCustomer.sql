@@ -1,2 +1,2 @@
 select * from jobs
-where customer_id = $1
+where uid = $1
