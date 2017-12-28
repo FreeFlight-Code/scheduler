@@ -44,9 +44,7 @@ class Scheduler extends Component {
     return (
       <div className="Scheduler">
         <div className="schedulerHeader">
-        <img className='image avatar scheduler' src=
-      'https://s3.amazonaws.com/devmountain/www/img/logowhiteblue.png'
-      // {this.props.auth.logo}
+        <img className='image avatar scheduler' src={this.props.auth.logo}
       alt="logo" />
           <div>
             Welcome {this.props.auth.firstname ? this.props.auth.firstname : this.props.auth.email}!

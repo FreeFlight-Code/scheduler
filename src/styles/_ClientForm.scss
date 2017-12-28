@@ -9,6 +9,14 @@
                 width: 100%;
             }
         }
+        #addjob{
+            color:rgb(207, 205, 205);
+            font-size: .4em;
+        }
+        #addjob:hover{
+            color:red;
+            cursor: pointer;
+        }
     }
 
 }

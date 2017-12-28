@@ -16,43 +16,49 @@ export default class Client_Form extends Component {
       results: []
       // login_profile: profile
     };
+    this.addJobModal = this.addJobModal.bind(this);
+  }
 
+  addJobModal() {
+    console.log('show modal')
   }
   componentWillMount() {
-    
+
     let id = this.state.custId;
     console.log(this.state.custId, 'custid')
     // let id = 1;
     axios.get('http://localhost:3030/api/jobsSingleCustomer/' + id).then((res) => {
       // console.log(res.data, 'all jobs this customer')
+
+      //put all jobs for this customer on this.state.results
       this.setState({
         results: res.data
       })
-      // console.log(this.state, 'state set hopefully with results')
+      console.log(this.state, 'state set hopefully with results')
+      console.log(this.props, 'props on client')
     })
-    .catch(err=>err)
+      .catch(err => err)
 
   }
 
   render() {
     const insertTableRow = () => {
-      if (this.state && this.state.results && this.state.results.length>0) {
-      let data = this.state.results;
-      // return (<tr><td>{data[1].businessname}</td></tr>);
-      return (data.map((e, i) => {
-        console.log(e, 'results element')
-      return (
-          <tr key={i} className='resultsRow'>
-            <td key={i + e.businessname}>{e.businessname}</td>
-            <td key={i + e.city}>{e.city}</td>
-            <td key={i + e.state}>{e.state}</td>
-            {/*<td key={i + e.jobdate}>{e.jobdate}</td>*/}
-          </tr>
-        
-        )
+      if (this.state && this.state.results && this.state.results.length > 0) {
+        let data = this.state.results;
+        return (data.map((e, i) => {
+          console.log(e, 'results element')
+          return (
+            <tr key={i} className='resultsRow'>
+              <td key={i + e.businessname}>{e.businessname}</td>
+              <td key={i + e.city}>{e.city}</td>
+              <td key={i + e.state}>{e.state}</td>
+              {/*<td key={i + e.jobdate}>{e.jobdate}</td>*/}
+            </tr>
+
+          )
         }))
-      } else 
-      return (<tr><td>no scheduled jobs</td></tr>);
+      } else
+        return (<tr><th>no scheduled jobs</th></tr>);
     }
     // console.log(this.state, 'state')
     return (
@@ -68,13 +74,44 @@ export default class Client_Form extends Component {
                 <th>Comments</th>
               </tr>
               {insertTableRow()}
-              </tbody>
+            </tbody>
           </table>
-          <input type="date" />
+          <span id='addjob' onClick={() => { this.addJobModal() }}>add job</span>
+          <form name='addJobModal' className="addJobModalContainer" action='localhost:3030/addJob' method='POST'>
+
+            <div className="title">Add a New Job</div>
+
+            <p className='label'>Job Name</p>
+
+            <input name='jobName' className='input' type="text" placeholder='' />
+
+            <p className='label'>Business Name</p>
+
+            <input name='businessName' className='input' type="text" placeholder='' />
+
+            <p className='label'>City</p>
+
+            <input name='city' className='input' type="text" placeholder='' />
+
+            <p className='label'>State</p>
+
+            <input name='state' className='input' type="text" placeholder='' />
+
+            <p className='label'>Job Date</p>
+
+            <input name='jobDate' className='input' type="text" placeholder='' />
+
+            <p className='label'>Comments</p>
+
+            <input name='Comments' className='input' type="text" placeholder='' />
+            <input type="submit" className="submit"/>
+          </form>
         </div>
-
-
+        {/*} <input type="date" />*/}
       </div>
+
+
+
     );
   }
 }

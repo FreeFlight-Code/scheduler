@@ -27,6 +27,7 @@ class Login extends Component {
     })
     .catch(err=>err)}
   }
+  //all data put into input fields is added to state
   handleInputChange(e, str) {
     e = e.toLowerCase();
     this.setState({
@@ -40,11 +41,12 @@ class Login extends Component {
       }
     }
   }
+  //not currently functioning
   disableToggle(element, input) {
     var elem = document.getElementById(element);
     console.log(elem.attribute)
   }
-
+//sends data from state to /login--- requires name and email
   handleSubmit() {
     const profile = this.state;
     let id = (this.props.location.pathname.split('/').pop());
@@ -69,6 +71,7 @@ class Login extends Component {
   }
 
   render() {
+    //if no id is found in url business creation info is rendered
     const adminAndClientRender = ()=>{
       if (!(this.state.data && this.state.data.bid) ){
         return(
@@ -90,6 +93,7 @@ class Login extends Component {
         }
     }
     return (
+      
       <div className="Login">
         <div className=" login container">
           {adminAndClientRender()}

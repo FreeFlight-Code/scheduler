@@ -90,6 +90,12 @@ module.exports = {
       res.status(400).send(error);
     })
   },
+
+  addJob: function (req, res, next) {
+    let db = req.app.get('db');
+    console.log('add Job hit, checking body', req.body)
+  },
+
   getJobsSingleCustomer: function (req, res) {
     let db = req.app.get('db')
     const value = req.params.id;
