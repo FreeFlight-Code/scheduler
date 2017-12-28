@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/_BusinessForm.scss';
-// import axios from 'axios';
-// import { profile } from '../server';
+import axios from 'axios';
+
 
 export default class Form extends Component {
     constructor(props) {
@@ -21,11 +21,21 @@ export default class Form extends Component {
     }
 
     componentWillMount() {
-        let data = this.props.auth
+        console.log(this.props, 'props on business')
+        let data = this.props.auth;
         this.setState({
-            ...data
-        })
-    }
+          data
+        });
+
+        // get business and jobs from user email/id
+        axios.post('/api/getJobsSingleBusiness', {id:this.props.auth.bid}).then((res) => {
+          console.log(res.data, 'all jobs this business')
+          this.setState({
+            results: res.data
+          })
+        }).catch((err) => err)
+    
+      }
     updateSearchOnState(e, searchType) {
         e = e.toUpperCase();
         this.setState({

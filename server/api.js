@@ -14,7 +14,7 @@ module.exports = {
   //     res.status(400).send(error);
   //   })
   // },
-
+//get all businesses
   getBusinesses: function (req, res) {
     let db = req.app.get('db')
     db.getBusinesses().then((results) => {
@@ -25,12 +25,14 @@ module.exports = {
       res.status(400).send(error);
     })
   },
-
-  getSingleBusiness: function (req, res) {
+  //get all jobs for one business
+  getJobsSingleBusiness: function (req, res) {
     let db = req.app.get('db')
-    const value = req.params.id;
-    db.getSingleBusiness([value]).then((results) => {
-      console.log('get single business, id... ' + value);
+    console.log(req.body, ' req.body');
+    const value = req.body.id;
+    db.getJobsSingleBusiness([value]).then((results) => {
+      console.log('jobs single business from db... ' + results);
+      // res.status(200).send('hit jobs for single business');
       res.status(200).send(results);
     }).catch((error) => {
       console.log(error);
@@ -38,7 +40,19 @@ module.exports = {
     })
   },
 
-
+//get one business
+  getSingleBusiness: function (req, res) {
+    let db = req.app.get('db')
+    const value = req.params.id;
+    db.getSingleBusiness([value]).then((results) => {
+      // console.log('get single business, id... ' + value);
+      res.status(200).send(results);
+    }).catch((error) => {
+      // console.log(error);
+      res.status(400).send(error);
+    })
+  },
+//add business
   addBusiness: function (req, res) {
     console.log(req.body, 'req-body')
     let db = req.app.get('db');
@@ -66,7 +80,7 @@ module.exports = {
         res.status(400).send(error);
       })
   },
-
+//get all jobs
   getJobs: function (req, res) {
     // console.log(req.app.get, 'req in getjobs')
     let db = req.app.get('db')
@@ -78,7 +92,7 @@ module.exports = {
       res.status(400).send(error);
     })
   },
-
+//get one job
   getSingleJob: function (req, res) {
     let db = req.app.get('db')
     const value = req.params.id;
@@ -90,37 +104,41 @@ module.exports = {
       res.status(400).send(error);
     })
   },
-
+//add job
   addJob: function (req, res, next) {
     let db = req.app.get('db');
     console.log('add Job hit, checking body', req.body)
   },
-
+//get all jobs for one user id
   getJobsSingleCustomer: function (req, res) {
     let db = req.app.get('db')
     const value = req.params.id;
     db.getJobsSingleCustomer([value]).then((results) => {
-      console.log('jobs singlecustomer backend...' + results);
+      // console.log('jobs singlecustomer backend...' + results);
       res.status(200).send(results);
     }).catch((error) => {
       console.log(error);
       res.status(400).send(error);
     })
   },
+  //add user
   addUser: function (req, res, next) {
-    // let auth = 'client';
+    console.log('entered addUser');
     let db = req.app.get('db');
     let { user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url } = req.body;
-    console.log('entered addUser');
     // console.log(req.body, 'req.body coming from frontend');
 
+    //is user email in db?
     db.login([user_email])
       .then((res) => {
+
         //existing user go to login
-        console.log(res && res['0'] && res['0'].uid, 'is there a user id')
+        // console.log(res && res['0'] && res['0'].uid, 'is there a user id')
+        //if the user exists go to login... 'next()'
         if (res && res['0'] && res['0'].uid) {
           next();
-          //no user add business then user
+
+          //is there business info?? add business
         } else if (businessname) {
           // console.log(businessname, 'business information sent from frontend')
           db.addBusiness([businessname, business_homepage_url, business_logo_url])
@@ -132,15 +150,17 @@ module.exports = {
               return res;
             })
             
-            //no match to user email and info on businessname
+            //no match to user email and info on businessname so add user as admin on business
             .then((res) => {
-              console.log(res)
-              var comments = '', bid = 1, auth = 'admin';
+              console.log(res[0].bid, 'res from add business');
+              var comments = '', bid = res[0].bid, auth = 'admin';
               
                         db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, comments, auth, bid])
             })
 
-            .then(() => console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as admin for' + businessname))
+            .then(() => {console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as admin for ' + businessname);
+            next();
+            })
 
             //no match to user email and no info on businessname
         } else {
@@ -148,7 +168,9 @@ module.exports = {
           var comments = '', auth = 'client';
 
           db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, comments, auth, bid])
-            .then(() => console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as client'))
+            .then(() => {console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as client')
+          next();
+          })
         }
       }).catch((err => err))
   },

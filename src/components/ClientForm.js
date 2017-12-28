@@ -25,17 +25,17 @@ export default class Client_Form extends Component {
   componentWillMount() {
 
     let id = this.state.custId;
-    console.log(this.state.custId, 'custid')
+    // console.log(this.state.custId, 'custid')
     // let id = 1;
     axios.get('http://localhost:3030/api/jobsSingleCustomer/' + id).then((res) => {
-      // console.log(res.data, 'all jobs this customer')
+      console.log(res.data, 'all jobs this user')
 
       //put all jobs for this customer on this.state.results
       this.setState({
         results: res.data
       })
-      console.log(this.state, 'state set hopefully with results')
-      console.log(this.props, 'props on client')
+      // console.log(this.state, 'state set hopefully with results')
+      // console.log(this.props, 'props on client')
     })
       .catch(err => err)
 

@@ -1,0 +1,1 @@
+select * from jobs where bid = $1;

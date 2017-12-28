@@ -32,6 +32,7 @@ ENDPOINTS  SAMPLES
 
 app.get('/api/businesses', api.getBusinesses);
 app.get('/api/singleBusiness/:id', api.getSingleBusiness);
+app.post('/api/getJobsSingleBusiness', api.getJobsSingleBusiness);
 app.post('/api/addBusiness', api.addBusiness);
 
 app.get('/api/jobs', api.getJobs);
