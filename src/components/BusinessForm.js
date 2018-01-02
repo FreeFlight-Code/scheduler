@@ -37,11 +37,11 @@ export default class Form extends Component {
     
       }
     updateSearchOnState(e, searchType) {
-        e = e.toUpperCase();
+        e = e.toLowerCase();
         this.setState({
             [searchType]: e
         })
-        console.log(this.state, 'state')
+        // console.log(this.state, 'state')
     }
     render() {
         const backendResults = () => {

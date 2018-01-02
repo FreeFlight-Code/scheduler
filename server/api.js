@@ -14,7 +14,15 @@ module.exports = {
   //     res.status(400).send(error);
   //   })
   // },
-//get all businesses
+
+  //simple test api
+  test: function (req, res) {
+    console.log('test hit');
+    res.status(200).send('test success');
+  },
+
+
+  //get all businesses
   getBusinesses: function (req, res) {
     let db = req.app.get('db')
     db.getBusinesses().then((results) => {

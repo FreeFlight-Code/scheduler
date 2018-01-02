@@ -27,7 +27,7 @@ export default class Client_Form extends Component {
     let id = this.state.custId;
     // console.log(this.state.custId, 'custid')
     // let id = 1;
-    axios.get('http://localhost:3030/api/jobsSingleCustomer/' + id).then((res) => {
+    axios.get('/api/jobsSingleCustomer/' + id).then((res) => {
       console.log(res.data, 'all jobs this user')
 
       //put all jobs for this customer on this.state.results
@@ -47,12 +47,14 @@ export default class Client_Form extends Component {
         let data = this.state.results;
         return (data.map((e, i) => {
           console.log(e, 'results element')
+          let date = new Date(e.jobdate)
           return (
             <tr key={i} className='resultsRow'>
               <td key={i + e.businessname}>{e.businessname}</td>
               <td key={i + e.city}>{e.city}</td>
               <td key={i + e.state}>{e.state}</td>
-              {/*<td key={i + e.jobdate}>{e.jobdate}</td>*/}
+              <td key={i + '_date'}>{date.toLocaleDateString()}</td>
+              <td key={i + '_comments'}>{e.comments}</td>
             </tr>
 
           )
@@ -77,7 +79,7 @@ export default class Client_Form extends Component {
             </tbody>
           </table>
           <span id='addjob' onClick={() => { this.addJobModal() }}>add job</span>
-          <form name='addJobModal' className="addJobModalContainer" action='localhost:3030/addJob' method='POST'>
+          <form name='addJobModal' className="addJobModalContainer" action='localhost:3030/api/test' method='GET'>
 
             <div className="title">Add a New Job</div>
 
@@ -99,15 +101,15 @@ export default class Client_Form extends Component {
 
             <p className='label'>Job Date</p>
 
-            <input name='jobDate' className='input' type="text" placeholder='' />
+            <input name='jobDate' className='input' type="date" placeholder='' />
 
             <p className='label'>Comments</p>
 
             <input name='Comments' className='input' type="text" placeholder='' />
-            <input type="submit" className="submit"/>
+            <input value='submit' type="submit" className="submit"/>
           </form>
         </div>
-        {/*} <input type="date" />*/}
+
       </div>
 
 
