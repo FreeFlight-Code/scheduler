@@ -79,7 +79,7 @@ export default class Client_Form extends Component {
             </tbody>
           </table>
           <span id='addjob' onClick={() => { this.addJobModal() }}>add job</span>
-          <form name='addJobModal' className="addJobModalContainer" action='localhost:3030/api/test' method='GET'>
+          <form name='addJobModal' className="addJobModalContainer" action='localhost:3030/api/addJob' method='POST'>
 
             <div className="title">Add a New Job</div>
 

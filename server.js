@@ -24,23 +24,6 @@ app.use(bodyParser.json());
 // const Businesses = require('./server/Businesses');
 const api = require('./server/api.js');
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ENDPOINTS  SAMPLES
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-// app.use(api.createDatabase);
-
-app.post('/api/test', api.test;
-app.get('/api/businesses', api.getBusinesses);
-app.get('/api/singleBusiness/:id', api.getSingleBusiness);
-app.post('/api/getJobsSingleBusiness', api.getJobsSingleBusiness);
-app.post('/api/addBusiness', api.addBusiness);
-
-app.get('/api/jobs', api.getJobs);
-app.get('/api/job/:id', api.getSingleJob);
-app.get('/api/jobsSingleCustomer/:id', api.getJobsSingleCustomer);
-app.post('/api/addjob', api.addJob);
-
 
 ///~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Massive~~~~~~~~~`
 
@@ -83,6 +66,23 @@ passport.use(new Auth0Strategy({
 
 }));
 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ENDPOINTS  SAMPLES
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+// app.use(api.createDatabase);
+
+app.get('/api/test', api.test);
+
+app.get('/api/businesses', api.getBusinesses);
+app.get('/api/singleBusiness/:id', api.getSingleBusiness);
+app.post('/api/getJobsSingleBusiness', api.getJobsSingleBusiness);
+app.post('/api/addBusiness', api.addBusiness);
+
+app.get('/api/jobs', api.getJobs);
+app.get('/api/job/:id', api.getSingleJob);
+app.get('/api/jobsSingleCustomer/:id', api.getJobsSingleCustomer);
+app.post('/api/addjob', api.addJob);
 
 
 

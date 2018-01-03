@@ -112,6 +112,7 @@ module.exports = {
       res.status(400).send(error);
     })
   },
+  
 //add job
   addJob: function (req, res, next) {
     let db = req.app.get('db');
@@ -193,7 +194,7 @@ module.exports = {
     let db = req.app.get('db')
     // db.login(user_email).then((res)=>console.log('results'))
     db.login([user_email]).then((results) => {
-      console.log(results, 'results from sql login request');
+      // console.log(results, 'results from sql login request');
       if (results['0'].password !== user_password) {
         res.status(400).send('login failure');
       } else
