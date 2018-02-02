@@ -1,9 +1,11 @@
 .Scheduler{
     background-color: grey;
     font-size: 2em;
-    min-width: 100vw;
-    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
     overflow: hidden;
+    padding: 20px;
+    width: 100vw;
     // display: flex;
     // flex-direction: column;
     // justify-content: center;
@@ -24,7 +26,7 @@
         }
     }
 }
-.logout_button{
+#logout_button{
 position: absolute;
 right:0;
 top:0;

@@ -1,96 +1,159 @@
 import React, { Component } from 'react';
 import '../styles/_BusinessForm.scss';
 import axios from 'axios';
-
+// import { profile } from '../server';
 
 export default class Form extends Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            searchName: "",
-            searchCity: "",
-            searchState: "",
-            searchDate: ""
-        }
+      super(props);
+      this.state = {
 
-
-        // this.handleDetails = this.handleDetails.bind(this);
-
-        this.updateSearchOnState = this.updateSearchOnState.bind(this);
-
-    }
+      }
+          
+      this.handleSearch = this.handleSearch.bind(this);
+      this.handleDetails = this.handleDetails.bind(this);
+      this.myDate = this.myDate.bind(this);
+      
+  
+    }  
 
     componentWillMount() {
-        console.log(this.props, 'props on business')
-        let data = this.props.auth;
-        this.setState({
-          data
-        });
+      //state passed through props
+        let state = this.props.state;
+        this.setState(state)
+        //list is the filtered results
+        this.setState({list:state.results})
+    }
 
-        // get business and jobs from user email/id
-        axios.post('/api/getJobsSingleBusiness', {id:this.props.auth.bid}).then((res) => {
-          console.log(res.data, 'all jobs this business')
-          this.setState({
-            results: res.data
+   
+  
+    handleSearch(event) {
+      event.preventDefault()
+      let sortedData = this.state.results;
+
+        let name = (this.state.businessname).toLowerCase();
+        let state = (this.state.state).toLowerCase();
+        let city = (this.state.city).toLowerCase();
+        // let comments = (this.state.comments).toLowerCase();
+  
+        console.log(sortedData)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort names
+        if (this.state.name) {
+          sortedData = sortedData.filter((e) => {
+            let index = (e.jobname).toLowerCase();
+            console.log(index)
+            return index.includes(name);
           })
-        }).catch((err) => err)
-    
-      }
-    updateSearchOnState(e, searchType) {
-        e = e.toLowerCase();
-        this.setState({
-            [searchType]: e
-        })
-        // console.log(this.state, 'state')
-    }
-    render() {
-        const backendResults = () => {
-            let data = [];
-            if (this.state && this.state.results) {
-                data = this.state.results;
-            }
-            //filters
-
-            if (this.state.searchName) {
-                data = (data.filter((e, i) => {
-                    return data[i].businessname.includes(this.state.searchName)
-                }))
-            }
-            if (this.state.searchCity) {
-                data = (data.filter((e, i) => {
-                    return data[i].city.includes(this.state.searchCity)
-                }))
-            }
-            if (this.state.searchState) {
-                data = (data.filter((e, i) => {
-                    return data[i].state.includes(this.state.searchState)
-                }))
-            }
-
-            //render
-
-            if (data.length && data.length > 0) {
-                return data.map((e, i, array) => {
-                    return <div key={i}>{e.businessname}</div>
-                })
-            } else return "No Results";
         }
-        return (
-            <div className="business admin Form">
-                <span className='controls formMain'>FILTERS
-                    <input value={this.state.searchName} id='searchName' className='input controls name' onChange={(e) => { this.updateSearchOnState(e.target.value, e.target.id) }} type="text" />Business Name
-
-                    {/* <input /*min={new Date}value={this.state.searchDate} onChange={(e)=>{this.updateSearchOnState(e.target.value, e.target.id)}} id='searchDate' className='input controls date' type="date"/>Date*/}
-
-                    <input value={this.state.searchCity} id='searchCity' onChange={(e) => { this.updateSearchOnState(e.target.value, e.target.id) }} className='input controls city' type="text" />City
-
-                    <input value={this.state.searchState} id='searchState' onChange={(e) => { this.updateSearchOnState(e.target.value, e.target.id) }} className='input controls state' type="text" />State
-
-                </span>
-                <span className='right formMain'>
-                    <div className='results'>{backendResults()}</div>
-                </span>
-            </div>
-        );
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort state
+        if (this.state.state) {
+          sortedData = sortedData.filter((e) => {
+            let index = (e.state).toLowerCase();
+            // console.log(index)
+            return index.includes(state);
+          })
+        }
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort city
+  
+        if (this.state.city) {
+          sortedData = sortedData.filter((e) => {
+            let index = (e.city).toLowerCase();
+            // console.log(index)
+            return index.includes(city);
+          })
+        }
+        this.setState({
+          list: sortedData
+        })
     }
-}
+  
+    handleDetails(event) {
+      event.preventDefault()
+      axios.get(`/api/jobs`).then((res) => {
+        let id = this.state.id;
+        let sortedData = res.data;
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    id sort
+        if (this.state.id) {
+          sortedData = sortedData.filter((e) => {
+            let index = (e.id);
+            console.log(index)
+            return index.includes(id);
+          })
+        }
+        this.setState({
+          details: sortedData
+        })
+  
+  
+      })
+    }
+  
+    myDate (date) {
+      let d= new Date (date)
+      return (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear()
+      }
+
+      onChangeHandler(e){
+        let target = e.target.id;
+        let value = e.target.value;
+  
+        this.setState({ [target]: value })
+        this.handleSearch();
+      }
+  
+    render() {
+        // console.log(this.props,'props')
+        console.log(this.state,'state')
+      return (
+        <div className="Form">
+  
+  
+          <form className='controls'>
+            Search By:
+  
+            <input id='searchName' className='input_business' onChange={this.onChangeHandler.bind(this)} type="text" placeholder='Job name' value={this.state.searchName}></input>
+  
+            <input id='searchCity' className='input_business' onChange={this.onChangeHandler.bind(this)} type="text" placeholder='City' value={this.state.searchCity}></input>
+  
+            <input id='searchState' className='input_business' onChange={this.onChangeHandler.bind(this)}
+              type="text" placeholder='State' value={this.state.searchState}></input>
+  
+            <button onClick={this.handleSearch} className="searchButton">Get Jobs</button>
+  
+            {/* <button onClick={this.handleDetails} className="searchButton">Get Details</button>
+  
+            <input className='input_business' onChange={(e) => this.setState({ 'id': e.target.value })} type="text" placeholder='Job ID' value={this.state.id}></input> */}
+  
+          </form>
+          <table className="resultsContainer">
+            <tr className="tableHeadings">
+                {/* <th className="title">ID</th> */}
+                <th className="title">Job Name</th>
+                <th className="title">Date</th>
+                <th className="title">City</th>
+                <th className="title">State</th>
+            </tr>
+
+            {  this.state.list.length>0 ? 
+              this.state.list.map((element, i) => {
+  
+              let mdate = this.myDate(element.jobdate);
+              return (
+                <tr className='tableItem' key={element.id}>
+                  <td>{element.jobname}</td>
+                  <td>{mdate}</td>
+                  <td>{element.city}</td>
+                  <td>{element.state}</td>
+                </tr>
+                
+              );
+            }) : <td> ~~~~~  No Data  ~~~~~ </td>
+            }
+        
+          </table>
+  
+        </div>
+      );
+    }
+  }
+  

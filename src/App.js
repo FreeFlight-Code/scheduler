@@ -12,29 +12,19 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      // email: "",
-      // password: "",
-      // businessName: "",
-      // business_id: "",
-      // link: "",
-      // logo: "",
-      auth: {}
+
     }
     this.setUserInfo = this.setUserInfo.bind(this);
   }
 
-  setUserInfo (info) {
-    console.log(info, 'state transfered to app');
-    this.setState({
-      auth: info
-    })
+  setUserInfo (user) {
+    this.setState({user})
   }
-  // componentDidMount(){console.log(this.props, this.state, '...props and state in app')}
   render() {
     return (
       <div className="App">
            <Switch>
-                    <Route render={ props => <Scheduler {...props} auth={this.state.auth}/>} path="/scheduler" />
+                    <Route render={ props => <Scheduler {...props} user={this.state.user}/>} path="/scheduler" />
                     <Route render={ props => <Login {...props} setUserInfo={this.setUserInfo}/>} path="/login" />
                     <Route component={ Home } path="/" exact />                
                 </Switch>            
