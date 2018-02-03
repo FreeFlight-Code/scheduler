@@ -37,29 +37,39 @@ export default class Client_Form extends Component {
     axios.post('/api/addjob/', obj).then((res) => {
       console.log(res.data, 'all jobs this user')
     })
+    let id = this.props.state.uid;
+    //state passed through props
+
+    this.setState(this.props.state);
+    axios.get('/api/jobsSingleCustomer/' + id).then((res) => {
+      console.log('successfully got job data')
+
+      //put all jobs for this customer on this.state.results
+      this.setState({
+        results: res.data,
+        list: res.data
+      })
+      // console.log(this.state, 'state set hopefully with results')
+      // console.log(this.props, 'props on client')
+    })
+      .catch(err => err)
+    this.showJobModal();
+
   }
 
   componentWillMount() {
 
-    // let id = this.state.uid;
-    let id = 1;
+    let id = this.props.state.uid;
     //state passed through props
-    let state = this.props.state;
-    this.setState({
-      uid: state.uid
-      , bid: state.bid
-      , logo: state.logo
-      , link: state.link
-      , firstname: state.firstname
-      , email: state.email
-      , results: state.results//results are for testing purposes only
-    });
-    axios.get('http://localhost:3030/api/jobsSingleCustomer/' + id).then((res) => {
-      console.log(res.data, 'all jobs this user')
+
+    this.setState(this.props.state);
+    axios.get('/api/jobsSingleCustomer/' + id).then((res) => {
+      console.log('successfully got job data')
 
       //put all jobs for this customer on this.state.results
       this.setState({
-        results: res.data
+        results: res.data,
+        list: res.data
       })
       // console.log(this.state, 'state set hopefully with results')
       // console.log(this.props, 'props on client')

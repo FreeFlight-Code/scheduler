@@ -92,7 +92,7 @@ app.post('/api/addjob', api.addJob);
 app.get('/auth', passport.authenticate('auth0'));
 
 app.post('/client_auth', api.login);
-app.post('/login/:id',
+app.post('/login/',
     api.addUser,
     api.login,
     api.sessionAuth

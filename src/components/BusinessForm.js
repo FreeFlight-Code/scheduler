@@ -23,7 +23,7 @@ export default class Form extends Component {
     let state = this.props.state;
     this.setState(state)
     //list is the filtered results
-    this.setState({ ...state, list: state.results })
+    this.setState(state)
   }
 
   onChangeHandler(e) {

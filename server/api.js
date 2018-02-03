@@ -36,7 +36,7 @@ module.exports = {
   //get all jobs for one business
   getJobsSingleBusiness: function (req, res) {
     let db = req.app.get('db')
-    console.log(req.body, ' req.body');
+    console.log(req.body, ' req.body on get jobs from single business');
     const value = req.body.id;
     db.getJobsSingleBusiness([value]).then((results) => {
       console.log('jobs single business from db... ' + results);
@@ -226,7 +226,6 @@ module.exports = {
       id = req.params.id;
     }
     let db = req.app.get('db')
-    // db.login(user_email).then((res)=>console.log('results'))
     db.login([user_email]).then((results) => {
       // console.log(results, 'results from sql login request');
       if (results['0'].password !== user_password) {
@@ -243,8 +242,9 @@ module.exports = {
     console.log('session auth entered')
     let db = req.app.get('db')
     let { user_email, user_password } = req.body;
-    db.loginb(user_email).then((results) => {
-      console.log(results, 'results from login')
+    // console.log(user_email, 'req body on sess auth')
+    db.loginb([user_email]).then((results) => {
+      console.log(results[0], 'results from login')
       res.status(200).send({ user: results[0], redirect: '/scheduler' })
 
     })
