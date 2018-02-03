@@ -116,8 +116,41 @@ module.exports = {
 //add job
   addJob: function (req, res, next) {
     let db = req.app.get('db');
-    
+    let {
+      businessname
+      , uid
+      , firstname
+      , lastname
+      , jobname
+      , jobdate
+      , city
+      , state
+      , comments
+      , bid
+    } = req.body;
+
+    let today = new Date();
+
     console.log('add Job hit, checking body', req.body)
+    db.addJob([
+      businessname
+      ,  uid
+      , firstname
+      , lastname
+      , today
+      , jobdate
+      , city
+      , state
+      , comments
+      , jobname
+      , bid
+    ]).then((results) => {
+      // console.log('jobs singlecustomer backend...' + results);
+      res.status(200).send(results);
+    }).catch((error) => {
+      console.log(error);
+      res.status(400).send(error);
+    })
   },
 //get all jobs for one user id
   getJobsSingleCustomer: function (req, res) {

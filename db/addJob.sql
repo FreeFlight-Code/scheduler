@@ -1,15 +1,19 @@
 
 
 insert into jobs (
-    customer_id,
+    businessname,
+    uid,
+    firstname,
+    lastname,
+    today,
     jobdate,
     city,
     state,
-    textfield,
+    comments,
     jobname,
-    business_id
+    bid
     )
-values($1, $2, $3, $4, $5, $6, $7)
+values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 
 
 

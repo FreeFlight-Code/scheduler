@@ -29,6 +29,10 @@ export default class Client_Form extends Component {
       , state: document.querySelector('input#state').value
       , jobdate: document.querySelector('input#jobDate').value
       , comments: document.querySelector('input#comments').value
+      , bid: this.state.bid
+      , uid: this.state.uid
+      , firstname: this.state.firstname
+      , lastname: this.state.lastname
     }
     axios.post('/api/addjob/', obj).then((res) => {
       console.log(res.data, 'all jobs this user')
