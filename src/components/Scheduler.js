@@ -3,32 +3,36 @@ import '../styles/_Scheduler.scss';
 import BusinessForm from './BusinessForm';
 import ClientForm from './ClientForm';
 
-const defaultUser = {
-      firstname: 'Defaultblahblah',
-      password:'test123blahblah',
-      uid:1,
-      lastname: 'FischerDefault',
-      birthday:'5-7-1977',
-      comments: 'none',
-      email: 'davidfisc@hotmailfake.com',
-      businessname: 'The Testing Cafe',
-      bid: 1,
-      link: 'http://www.google.com',
-      logo: 'https://www.independence.aero/files/images/artikelbilder/cruiser4.jpg',
-      auth: 'admin'
-}
+// const defaultUser = {
+//       firstname: 'Defaultblahblah',
+//       password:'test123blahblah',
+//       uid:1,
+//       lastname: 'FischerDefault',
+//       birthday:'5-7-1977',
+//       comments: 'none',
+//       email: 'davidfisc@hotmailfake.com',
+//       businessname: 'The Testing Cafe',
+//       bid: 1,
+//       link: 'http://www.google.com',
+//       logo: 'https://www.independence.aero/files/images/artikelbilder/cruiser4.jpg',
+//       auth: 'client'
+// }
 
 const logged_in = _ => {
   if ( this.props && this.props.user && this.props.user.auth && this.props.user.email ) return true;
   else return false;
 }
 
-const getUser = _=>{
+// const getUser = _=>{
 
-    if (this.props && this.props.user && this.props.user.auth && this.props.user.email) {return this.props.user}
-    else return defaultUser
-  
-}
+//     if (this.props && this.props.user && this.props.user.auth && this.props.user.email) {
+//       console.log('user logged in')
+//       return this.props.user}
+//     else {
+//      console.log('user not logged in default user initialized') 
+//       return this.state;
+//     }
+// }
 
 class Scheduler extends Component {
   constructor(props) {
@@ -46,12 +50,12 @@ class Scheduler extends Component {
       bid: 1,
       link: 'http://www.google.com',
       logo: 'https://www.independence.aero/files/images/artikelbilder/cruiser4.jpg',
-      auth: 'admin',
+      auth: '',
       results: [{ "jid": 1, "businessname": "Target", "firstname": "David", "lastname": "Fischer", "comments": "none", "city": "riverton", "state": "utah", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 2, "businessname": "Target", "firstname": "David", "lastname": "Fischer", "comments": "none", "city": "riverton", "state": "utah", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 3, "businessname": "smiths", "firstname": "rebecca", "lastname": "Fischer", "comments": "none", "city": "las vegas", "state": "utah", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 4, "businessname": "galls", "firstname": "matt", "lastname": "Fischer", "comments": "none", "city": "las vegas", "state": "CA", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 5, "businessname": "winco", "firstname": "matt", "lastname": "Fischer", "comments": "none", "city": "las vegas", "state": "CA", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }]
     }
   }
   componentWillMount() {
-    // console.log(logged_in())
+    // console.log(getUser())
     //overwrite all data on state with that on props
     //Check if  auth is being passed into state, if not 
     if (this.props && this.props.user && this.props.user.firstname | this.props.user.email) {

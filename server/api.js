@@ -116,6 +116,7 @@ module.exports = {
 //add job
   addJob: function (req, res, next) {
     let db = req.app.get('db');
+    
     console.log('add Job hit, checking body', req.body)
   },
 //get all jobs for one user id

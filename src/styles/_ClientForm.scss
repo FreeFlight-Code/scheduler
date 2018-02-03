@@ -1,22 +1,51 @@
 .Client_Form{
-    .resultsContainer{
-        .resultsTable{
-            width: 90vw;
-            border: 1px solid black;
-            border-spacing: 2px;
-            max-height:33vh;
-            .tableHeadings{
-                width: 100%;
-            }
-        }
-        #addjob{
-            color:rgb(207, 205, 205);
-            font-size: .4em;
-        }
-        #addjob:hover{
-            color:red;
-            cursor: pointer;
+    max-width: 100%;
+    display: flex;
+    // flex-direction: row-reverse;
+    div#addJobModalContainer{
+        background-color: rgb(240, 248, 255);
+        width: 45vw;
+        position: absolute;
+        left:25vw;
+        top: 10vh;   
+        padding: 35px;  
+        border: 1px solid black;   
+        box-shadow: 10px 10px 30px 10px rgba(0, 0, 0, 0.342);
+        button{
+            font-size: .5em;
+            height:50px;
+            width:75px;
         }
     }
+    #addjob{
+        color:rgb(207, 205, 205);
+        font-size: .4em;
+        margin: 30px 50px;
+    }
+    #addjob:hover{
+        color:red;
+        cursor: pointer;
+    }
+    table.resultsTable{
+        width: 80%;
+        border: 1px solid black;
+        border-spacing: 2px;
+        max-height:33vh;
+        text-align: center;
+        tr{
+            width: 100%;
+        }
+        th{
+            font-size: 1.2em;
+            color: rgb(207, 205, 205);
+            padding: 25px
+
+        }
+        td{
+            padding: 10px;
+
+        }
+    }
+    
 
 }
