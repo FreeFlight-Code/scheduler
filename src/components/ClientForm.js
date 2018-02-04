@@ -62,20 +62,19 @@ export default class Client_Form extends Component {
     let id = this.props.state.uid;
     //state passed through props
 
-    this.setState(this.props.state);
-    axios.get('/api/jobsSingleCustomer/' + id).then((res) => {
-      console.log('successfully got job data')
-
-      //put all jobs for this customer on this.state.results
-      this.setState({
-        results: res.data,
-        list: res.data
-      })
+    if (this.props && this.props.user && this.props.user.firstname | this.props.user.email) {
+      console.log('client logged in')
+      let uid = this.props.user.uid
+      axios.get('/api/jobsSingleCustomer' + uid)
+      .then((res) => {
+        this.setState({
+          results: res.data,
+          list: res.data
+        })
+      }) .catch(err => err)
       // console.log(this.state, 'state set hopefully with results')
       // console.log(this.props, 'props on client')
-    })
-      .catch(err => err)
-
+    }
   }
 
   render() {
@@ -98,7 +97,7 @@ export default class Client_Form extends Component {
           )
         }))
       } else
-        return (<tr><th>no scheduled jobs</th></tr>);
+        return (<tr>Client...You have no appts set...</tr>);
     }
     const addJobModal = _ => {
       if (this.state.showaddjob) {

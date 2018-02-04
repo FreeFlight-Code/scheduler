@@ -39,59 +39,20 @@ class Scheduler extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      //state is hard coded in to allow continued work, i will do an /auth/me query and take all the info off that, or maybe to a custom query...
-      // firstname: 'Davidtesting',
-      // password:'test123',
-      // uid:1,
-      // lastname: 'Fischer',
-      // birthday:'5-7-1977',
-      // comments: 'none',
-      // email: 'davidfisc@hotmailfake.com',
-      // businessname: 'The Testing Cafe',
-      // bid: 1,
-      // link: 'http://www.google.com',
-      // logo: 'https://www.independence.aero/files/images/artikelbilder/cruiser4.jpg',
-      // auth: '',
-      // results: [{ "jid": 1, "businessname": "Target", "firstname": "David", "lastname": "Fischer", "comments": "none", "city": "riverton", "state": "utah", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 2, "businessname": "Target", "firstname": "David", "lastname": "Fischer", "comments": "none", "city": "riverton", "state": "utah", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 3, "businessname": "smiths", "firstname": "rebecca", "lastname": "Fischer", "comments": "none", "city": "las vegas", "state": "utah", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 4, "businessname": "galls", "firstname": "matt", "lastname": "Fischer", "comments": "none", "city": "las vegas", "state": "CA", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }, { "jid": 5, "businessname": "winco", "firstname": "matt", "lastname": "Fischer", "comments": "none", "city": "las vegas", "state": "CA", "today": "2017-12-10T07:00:00.000Z", "jobdate": "2077-07-07T06:00:00.000Z", "bid": 1, "uid": 1 }]
+      results:[],
+      list:[]
     }
   }
   componentWillMount() {
     let userInfo = this.props.user;
     this.setState(userInfo)
     //overwrite all data on state with that on props
-    //Check if auth is being passed into state, if not 
-    if (
-      this.props 
-      && this.props.user
-      && this.props.user.firstname 
-      | this.props.user.email 
-      && this.props.user.auth === 'admin'
-      ) {
-      console.log('admin logged in')
-      let bid = this.props.user.bid
-      axios.post('/api/getJobsSingleBusiness', bid)
-      .then((res) => {
-        this.setState({
-          results: res.data,
-          list: res.data
-        })
-      })      
-    } else if (this.props && this.props.user && this.props.user.firstname | this.props.user.email) {
-      console.log('client logged in')
-      let uid = this.props.user.uid
-      axios.get('/api/jobsSingleCustomer' + uid)
-      .then((res) => {
-        this.setState({
-          results: res.data
-        })
-      })
-    } 
-    // else {
-    //   this.props.history.push('/login');
-    //   setTimeout(()=>{
-    //     alert('login failure please try again')
-    //   }, 1000)
-    //   }
+     if ( this.props.user &&this.props.user.auth) { 
+       
+     } else {this.props.history.push('/login');
+      setTimeout(()=>{
+        alert('login failure please try again')
+      }, 1000)}
 }
 
     render() {

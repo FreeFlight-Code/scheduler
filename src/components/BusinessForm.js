@@ -7,8 +7,6 @@ export default class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: this.props.results
-
     }
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -21,9 +19,28 @@ export default class Form extends Component {
   componentWillMount() {
     //state passed through props
     let state = this.props.state;
-    this.setState(state)
     //list is the filtered results
-    this.setState(state)
+    this.setState(state);
+    if (
+      this.props 
+      && this.props.user
+      // && this.props.user.firstname 
+      // | this.props.user.email 
+      && this.props.user.auth === 'admin'
+      ) {
+      console.log('admin logged in')
+      let bid = this.props.user.bid
+      axios.get('/api/jobsSingleBusiness/' + bid)
+      .then((res) => {
+        // let results = res.data;
+        console.log('res from back for businesses', res.data);
+        this.setState({
+          results: res.data,
+          list: res.data
+        })
+      }) 
+      .catch(err => console.log(err)) 
+    }    
   }
 
   onChangeHandler(e) {
@@ -97,7 +114,7 @@ export default class Form extends Component {
   }
 
   render() {
-    // console.log(this.props,'props')
+    console.log(this.props,'props')
     console.log(this.state, 'state')
     return (
       <div className="Form">
@@ -121,17 +138,18 @@ export default class Form extends Component {
 
         </form>
         <table className="resultsContainer">
+            <tbody>
           <tr className="tableHeadings">
-            {/* <th className="title">ID</th> */}
-            <th className="title">Job Name</th>
-            <th className="title">Date</th>
-            <th className="title">City</th>
-            <th className="title">State</th>
+              {/* <th className="title">ID</th> */}
+              <th className="title">Job Name</th>
+              <th className="title">Date</th>
+              <th className="title">City</th>
+              <th className="title">State</th>
           </tr>
 
           {this.state.list.length > 0 ?
             this.state.list.map((element, i) => {
-
+              
               let mdate = this.myDate(element.jobdate);
               return (
                 <tr className='tableItem' key={element.id}>
@@ -141,10 +159,11 @@ export default class Form extends Component {
                   <td>{element.state}</td>
                 </tr>
 
-              );
-            }) : <td> ~~~~~  No Data  ~~~~~ </td>
+          );
+          }) : <tr><td> Business...Your appt calendar is empty... </td></tr>
           }
 
+          </tbody>
         </table>
 
       </div>

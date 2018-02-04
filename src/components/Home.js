@@ -21,7 +21,7 @@ constructor(props) {
         <h1 className="title my">your custom</h1>
         <h1 className="title arced">SCHEDULER</h1>
         <div className='img'><img src="https://www.simpleshapes.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/4/0/4036_img1_3_4.jpg" alt="calendar"/></div>
-        <button onClick={()=>{this.props.history.push('/login')}}>Register</button>
+        <button onClick={()=>{this.props.history.push('/login/')}}>Register</button>
       </div>
     );
   }

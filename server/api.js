@@ -36,8 +36,8 @@ module.exports = {
   //get all jobs for one business
   getJobsSingleBusiness: function (req, res) {
     let db = req.app.get('db')
-    console.log(req.body, ' req.body on get jobs from single business');
-    const value = req.body.id;
+    // console.log(req.body, ' req.body on get jobs from single business');
+    const value = req.params.id;
     db.getJobsSingleBusiness([value]).then((results) => {
       console.log('jobs single business from db... ' + results);
       // res.status(200).send('hit jobs for single business');

@@ -16,9 +16,12 @@ class Login extends Component {
   componentWillMount() {
     //checks to see if it should load a business logo and info on initial load
     let bid = (this.props.location.pathname.split('/').pop());
+    // console.log(bid, 'bid in function')
+    if (bid){
     this.setState({
       bid: bid
     })
+    
     axios.get('/api/singleBusiness/' + bid)
       .then((res) => {
         let data = res.data[0];
@@ -26,6 +29,7 @@ class Login extends Component {
         // console.log('state', this.state)
       })
       .catch(err => err)
+    }
   }
   //all data put into input fields is added to state
   handleInputChange(e, str) {
@@ -62,14 +66,14 @@ class Login extends Component {
 
           axios.post('/login', profile)
             .then((res) => {
-              console.log('front end login at submit', res)
+              // console.log('front end login at submit', res)
               if (res && res.data && res.data.user) {
 
                 this.props.setUserInfo(res.data.user);
                 this.props.history.push('/scheduler');
               }
             })
-            .catch((err) => console.log(err, 'problem sending profile'))
+            .catch((err) => console.log( 'problem sending profile', err))
       } else {
         alert('Please enter an email')
       }
@@ -79,9 +83,11 @@ class Login extends Component {
   }
 
   render() {
+    // console.log(this.state.bid, 'bid on state')
+
     //if no id is found in url business creation info is rendered
     const adminAndClientRender = () => {
-      if (!(this.state && this.state.bid)) {
+      if (!this.state.bid) {
         return (
           <div>
             <div className="title">New Business Registration</div>
