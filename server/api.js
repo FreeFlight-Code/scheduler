@@ -59,6 +59,26 @@ module.exports = {
       res.status(400).send(error);
     })
   },
+  //edit business
+  editBusiness: function (req, res, next) {
+    let db = req.app.get('db')
+    let { bid, businessname, link, logo } = req.body;
+    db.editBusiness([bid,businessname, link, logo]).then(() => {
+      res.status(200).send(true);
+    }).catch((error) => {
+      res.status(400).send(error);
+    })
+  },
+  // delete business
+  getSingleBusinessById: function (req, res, next) {
+    let db = req.app.get('db')
+    const value = req.params.id;
+    db.deleteBusiness(value).then(() => {
+      res.status(200).send(true);
+    }).catch((error) => {
+      res.status(400).send(error);
+    })
+  },
   //get one business by name
   getSingleBusinessByName: function (req, res, next) {
     let db = req.app.get('db')
@@ -99,6 +119,27 @@ module.exports = {
         res.status(400).send(error);
       })
   },
+
+  //addbusinessonly 
+  addBusinessOnly: function (req, res) {
+    console.log(req.body, 'req-body')
+    let db = req.app.get('db');
+    let { businessname, link, logo } = req.body;
+    db.addBusiness(
+      [
+        businessname,
+        link,
+        logo
+      ]
+    )
+      .then(() => {
+        res.status(200).send(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      })
+  },
 //get all jobs
   getJobs: function (req, res) {
     // console.log(req.app.get, 'req in getjobs')
@@ -132,16 +173,16 @@ module.exports = {
       , uid
       , firstname
       , lastname
-      , jobname
       , jobdate
       , city
       , state
       , comments
       , bid
+
     } = req.body;
 
     let today = new Date();
-
+    let jobname = null;
     console.log('add Job hit, checking body', req.body)
     db.addJob([
       businessname
@@ -153,11 +194,10 @@ module.exports = {
       , city
       , state
       , comments
-      , jobname
       , bid
-    ]).then((results) => {
-      // console.log('jobs singlecustomer backend...' + results);
-      res.status(200).send(results);
+      , jobname
+    ]).then(() => {
+      res.status(200).send(true);
     }).catch((error) => {
       console.log(error);
       res.status(400).send(error);

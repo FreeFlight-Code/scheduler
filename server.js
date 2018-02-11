@@ -73,18 +73,27 @@ ENDPOINTS  SAMPLES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 // app.use(api.createDatabase);
 
-// app.get('/api/test', api.test);
-
-// app.get('/api/businesses', api.getBusinesses);
-// app.get('/api/singleBusiness/:id', api.getSingleBusinessById);
+//all business endpoints
 app.get('/api/singleBusinessByName/:name', api.getSingleBusinessByName);
-// app.get('/api/jobsSingleBusiness/:id', api.getJobsSingleBusiness);
-app.post('/api/addBusiness', api.getsinglebusiness, api.addBusiness);
 
-// app.get('/api/jobs', api.getJobs);
-// app.get('/api/job/:id', api.getSingleJob);
-// app.get('/api/jobsSingleCustomer/:id', api.getJobsSingleCustomer);
-app.post('/api/addjob', api.addJob);
+app.get('/api/test', api.test);
+
+app.get('/api/businesses', api.getBusinesses);
+app.get('/api/singleBusiness/:id', api.getSingleBusinessById);
+app.get('/api/jobsSingleBusiness/:id', api.getJobsSingleBusiness);
+
+app.post('/api/addBusiness', api.addBusiness);
+app.post('/api/addBusinessonly', api.addBusinessOnly);
+//______________________ put and delete dont work?????!!!!!
+app.put('api/editbusiness', api.test)
+app.delete('api/deletebusiness/:id', api.test)
+
+
+// all job end points
+app.get('/api/jobs', api.getJobs);
+app.get('/api/job/:id', api.getSingleJob);
+app.get('/api/jobsSingleCustomer/:id', api.getJobsSingleCustomer);
+app.post('/api/job', api.addJob);
 
 
 

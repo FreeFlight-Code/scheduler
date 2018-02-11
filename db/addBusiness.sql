@@ -7,4 +7,5 @@ VALUES (
 $1,
 $2,
 $3
-) returning *;
+)
+-- returning *;
