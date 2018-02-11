@@ -53,8 +53,9 @@ class Login extends Component {
   //sends data from state to /login--- requires name and email
   handleSubmit() {
     const profile = this.state;
-    //id is pulled from after last '/' in url
-    // let bid = (this.props.location.pathname.split('/').pop());
+    let addBusiness = false;
+    if (this.props.location.pathname.split('/').pop() > 0) {addBusiness = true};
+    this.setState({addBusiness})
     if (this.state.user_password) {
       if (this.state.user_email) {
     //     if (!bid) {
@@ -64,9 +65,9 @@ class Login extends Component {
     //         })
     //     } else if (bid){
 
-          axios.post('/login', profile)
+          axios.post('http://localhost:3030/auth', profile)
             .then((res) => {
-              // console.log('front end login at submit', res)
+              console.log('front end login at submit', res)
               if (res && res.data && res.data.user) {
 
                 this.props.setUserInfo(res.data.user);

@@ -73,16 +73,17 @@ ENDPOINTS  SAMPLES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 // app.use(api.createDatabase);
 
-app.get('/api/test', api.test);
+// app.get('/api/test', api.test);
 
-app.get('/api/businesses', api.getBusinesses);
-app.get('/api/singleBusiness/:id', api.getSingleBusiness);
-app.get('/api/jobsSingleBusiness/:id', api.getJobsSingleBusiness);
-app.post('/api/addBusiness', api.addBusiness);
+// app.get('/api/businesses', api.getBusinesses);
+// app.get('/api/singleBusiness/:id', api.getSingleBusinessById);
+app.get('/api/singleBusinessByName/:name', api.getSingleBusinessByName);
+// app.get('/api/jobsSingleBusiness/:id', api.getJobsSingleBusiness);
+app.post('/api/addBusiness', api.getsinglebusiness, api.addBusiness);
 
-app.get('/api/jobs', api.getJobs);
-app.get('/api/job/:id', api.getSingleJob);
-app.get('/api/jobsSingleCustomer/:id', api.getJobsSingleCustomer);
+// app.get('/api/jobs', api.getJobs);
+// app.get('/api/job/:id', api.getSingleJob);
+// app.get('/api/jobsSingleCustomer/:id', api.getJobsSingleCustomer);
 app.post('/api/addjob', api.addJob);
 
 
@@ -90,15 +91,21 @@ app.post('/api/addjob', api.addJob);
 //     ~~~~~~~~~~ MY  AUTH endpoints    ~~~~~~~~
 //kicks off process
 app.get('/auth', passport.authenticate('auth0'));
+// app.get('/session');
 
-app.post('/client_auth', api.login);
-app.post('/login/',
-    api.addUser,
-    api.login,
-    api.sessionAuth
-);
+// app.post('/client_auth', api.login);
+// app.post('/login/:id',
+// api.addUser,
+// api.login,
+// api.sessionAuth
+// );
+// app.post('/login/',
+//     api.addUser,
+//     api.login,
+//     api.sessionAuth
+// );
 
-app.get('/sessionAuth', api.sessionAuth);
+// app.get('/sessionAuth', api.sessionAuth);
 
 
 //redirects
