@@ -48,12 +48,23 @@ module.exports = {
     })
   },
 
-//get one business
-  getSingleBusiness: function (req, res) {
+//get one business by id
+  getSingleBusinessById: function (req, res, next) {
     let db = req.app.get('db')
     const value = req.params.id;
-    db.getSingleBusiness([value]).then((results) => {
-      // console.log('get single business, id... ' + value);
+    console.log(db, value, 'id....')
+    db.getSingleBusinessById(value).then((results) => {
+      res.status(200).send(results);
+    }).catch((error) => {
+      res.status(400).send(error);
+    })
+  },
+  //get one business by name
+  getSingleBusinessByName: function (req, res, next) {
+    let db = req.app.get('db')
+    const value = req.params.name;
+    db.getSingleBusinessByName(value).then((results) => {
+      console.log('get single business, name... ' + value);
       res.status(200).send(results);
     }).catch((error) => {
       // console.log(error);
@@ -170,19 +181,18 @@ module.exports = {
     let db = req.app.get('db');
     let { user_email, user_password, user_firstname, user_lastname, user_birthday, businessname, business_homepage_url, business_logo_url } = req.body;
     // console.log(req.body, 'req.body coming from frontend');
-
+    let bid = req.body.bid;
+    let { addBusiness } = req.body
     //is user email in db?
     db.login([user_email])
       .then((res) => {
 
         //existing user go to login
-        // console.log(res && res['0'] && res['0'].uid, 'is there a user id')
-        //if the user exists go to login... 'next()'
         if (res && res['0'] && res['0'].uid) {
           next();
 
           //is there business info?? add business
-        } else if (businessname) {
+        } else if (addBusiness) {
           // console.log(businessname, 'business information sent from frontend')
           db.addBusiness([businessname, business_homepage_url, business_logo_url])
             //res returns business name
@@ -207,8 +217,8 @@ module.exports = {
 
             //no match to user email and no info on businessname
         } else {
-          var bid = req.params.id;
-          var comments = '', auth = 'client';
+          // var bid = req.body.bid;
+          let comments = '', auth = 'client';
 
           db.addUser([user_email, user_password, user_firstname, user_lastname, user_birthday, comments, auth, bid])
             .then(() => {console.log(user_firstname + ' ' + user_lastname + ' ' + 'added as client')
@@ -244,8 +254,11 @@ module.exports = {
     let { user_email, user_password } = req.body;
     // console.log(user_email, 'req body on sess auth')
     db.loginb([user_email]).then((results) => {
-      console.log(results[0], 'results from login')
-      res.status(200).send({ user: results[0], redirect: '/scheduler' })
+      // console.log(results[0], 'results from login');
+      req.user = results[0];
+      req.user.session = req.sessionID
+      console.log(req.user)
+      res.status(200).send({ user: req.user, redirect: '/scheduler' })
 
     })
   },

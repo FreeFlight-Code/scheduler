@@ -1,2 +1,2 @@
 SELECT * FROM jobs
-  WHERE ID = $1
+  WHERE jid = $1

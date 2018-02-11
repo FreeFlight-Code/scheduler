@@ -63,22 +63,20 @@ export default class Form extends Component {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort names
     if (searchName) {
       sortedData = sortedData.filter((e) => {
-        return e.businessname.includes(searchName);
+        e.businessname.includes(searchName);
       })
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort state
     if (searchState) {
       sortedData = sortedData.filter((e) => {
-        return e.state.includes(searchState);
+        e.state.includes(searchState);
       })
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort city
     
     if (searchCity) {
-      console.log(searchCity, 'searchCity in sort')
-      console.log(sortedData, 'data in sort')
       sortedData = sortedData.filter((e) => {
-        return e.city.includes(searchCity);
+        e.city.includes(searchCity);
       })
     }
     console.log(sortedData, 'end of filter')
@@ -131,6 +129,8 @@ export default class Form extends Component {
             type="text" placeholder='State' value={this.state.searchState}></input>
 
           <button onClick={this.handleSearch} className="searchButton">Get Jobs</button>
+          <p>Custom URL for your clients:</p>
+          <p>localhost:3000/#/login/{this.state.bid}</p>
 
           {/* <button onClick={this.handleDetails} className="searchButton">Get Details</button>
   

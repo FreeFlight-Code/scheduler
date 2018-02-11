@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/_Scheduler.scss';
 import BusinessForm from './BusinessForm';
 import ClientForm from './ClientForm';
-import axios from 'axios';
+// import axios from 'axios';
 
 // const defaultUser = {
 //       firstname: 'Defaultblahblah',
