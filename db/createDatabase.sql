@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS BUSINESSES (
-  BID SERIAL NOT NULL PRIMARY KEY, 
+  bid SERIAL NOT NULL PRIMARY KEY, 
   logo varchar(255),
   link varchar(255),
   businessname VARCHAR(50)
@@ -21,10 +21,7 @@ CREATE TABLE IF NOT EXISTS USERS (
 CREATE TABLE IF NOT EXISTS JOBS (
 
   JID SERIAL NOT NULL PRIMARY KEY, 
-  businessname VARCHAR(50),
   jobname VARCHAR(50),
-  firstname VARCHAR(50),
-  lastname VARCHAR(50),
   comments VARCHAR(50),
   city VARCHAR(50),
   state VARCHAR(50),

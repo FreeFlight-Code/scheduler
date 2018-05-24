@@ -23,18 +23,15 @@ export default class Client_Form extends Component {
   addJob() {
 
     let obj = {
-      businessname: document.querySelector('input#businessName').value
-      , jobname: document.querySelector('input#jobName').value
+      jobname: document.querySelector('input#jobName').value
       , city: document.querySelector('input#city').value
       , state: document.querySelector('input#state').value
       , jobdate: document.querySelector('input#jobDate').value
       , comments: document.querySelector('input#comments').value
-      , bid: this.state.bid
-      , uid: this.state.uid
-      , firstname: this.state.firstname
-      , lastname: this.state.lastname
+      , bid: this.props.state.bid
+      , uid: this.props.state.uid
     }
-    axios.post('/api/addjob/', obj).then((res) => {
+    axios.post('/api/job', obj).then((res) => {
       console.log(res.data, 'all jobs this user')
     })
     let id = this.props.state.uid;
@@ -59,26 +56,28 @@ export default class Client_Form extends Component {
 
   componentWillMount() {
 
-    let id = this.props.state.uid;
+    // let id = this.props.state.uid;
     //state passed through props
 
-    if (this.props && this.props.user && this.props.user.firstname | this.props.user.email) {
+    if (this.props && this.props.user && this.props.user.uid) {
       console.log('client logged in')
       let uid = this.props.user.uid
-      axios.get('/api/jobsSingleCustomer' + uid)
-      .then((res) => {
-        this.setState({
-          results: res.data,
-          list: res.data
-        })
-      }) .catch(err => err)
-      // console.log(this.state, 'state set hopefully with results')
+      axios.get('/api/jobsSingleCustomer/'+uid)
+        .then((res) => {
+          // console.log('res on jobs query on client...',res)
+          this.setState({
+            results: res.data,
+            list: res.data
+          })
+        }).catch(err => err)
+      console.log(this.state, 'state set hopefully with results')
       // console.log(this.props, 'props on client')
     }
   }
 
   render() {
-    console.log(this.state, 'state on client form')
+    // console.log(this.state, 'state on client form')
+    const date = new Date().toLocaleString;
     const insertTableRow = () => {
       if (this.state && this.state.results && this.state.results.length > 0) {
         let data = this.state.results;
@@ -87,7 +86,7 @@ export default class Client_Form extends Component {
           let date = new Date(e.jobdate)
           return (
             <tr key={i} className='resultsRow'>
-              <td key={i + e.businessname}>{e.businessname}</td>
+              <td key={i + e.jobname}>{e.jobname}</td>
               <td key={i + e.city}>{e.city}</td>
               <td key={i + e.state}>{e.state}</td>
               <td key={i + '_date'}>{date.toLocaleDateString()}</td>
@@ -104,14 +103,12 @@ export default class Client_Form extends Component {
         return (<div name='addJobModal' id="addJobModalContainer">
           <p className='label'>Job Name</p>
           <input id='jobName' className='input' type="text" placeholder='' />
-          <p className='label'>Business Name</p>
-          <input id='businessName' className='input' type="text" placeholder='' />
           <p className='label'>City</p>
           <input id='city' className='input' type="text" placeholder='' />
           <p className='label'>State</p>
           <input id='state' className='input' type="text" placeholder='' />
           <p className='label'>Job Date</p>
-          <input id='jobDate' className='input' type="date" placeholder='' />
+          <input id='jobDate' className='input' type="date" defaultValue={date} />
           <p className='label'>Comments</p>
           <input id='comments' className='input' type="text" placeholder='' />
           <button onClick={this.addJob.bind(this)} id='addJobButton'>Add Job</button>
@@ -130,7 +127,7 @@ export default class Client_Form extends Component {
         <table className='resultsTable'>
           <tbody>
             <tr className='tableHeadings'>
-              <th>Business</th>
+              <th>Jobname</th>
               <th>City</th>
               <th>State</th>
               <th>Date</th>

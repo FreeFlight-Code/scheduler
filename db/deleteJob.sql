@@ -1,0 +1,1 @@
+delete from jobs where jid = $1;

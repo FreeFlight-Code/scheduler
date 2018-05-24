@@ -1,10 +1,5 @@
-
-
 insert into jobs (
-    businessname,
     uid,
-    firstname,
-    lastname,
     today,
     jobdate,
     city,
@@ -13,20 +8,18 @@ insert into jobs (
     bid,
     jobname
     )
-values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
-
-
-
-
-
+values($1, $2, $3, $4, $5, $6, $7, $8)
+returning *;
 
 -- insert into jobs (
---     customer_id,
---     jobdate,
---     city,
---     state,
---     textfield,
---     jobname,
---     business_id
+--    comments
+--    , city
+--    , state
+--    , today
+--    , jobdate
+--    , jobname
+--    , bid
+--    , uid
 --     )
--- values($1, '12-12-2017', $3, $4, $5, $6, $7)
+-- values ('no comments', 'redcity', 'utah', '01-01-2020', '01-01-2030', 'jobnametest', 1, 49)
+-- returning *;

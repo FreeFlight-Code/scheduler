@@ -38,6 +38,7 @@ massive({
     ssl: true
   }).then(function(db) {
     app.set('db', db);
+    db.createDatabase().catch(console.log)
   });
 
 
@@ -74,27 +75,29 @@ ENDPOINTS  SAMPLES
 // app.use(api.createDatabase);
 
 //all business endpoints
+
+app.get('/test', api.test);
+
+// app.get('/api/businesses', api.getBusinesses);
+app.get('/api/singleBusiness/:id', (api.getSingleBusinessById));
 app.get('/api/singleBusinessByName/:name', api.getSingleBusinessByName);
-
-app.get('/api/test', api.test);
-
-app.get('/api/businesses', api.getBusinesses);
-app.get('/api/singleBusiness/:id', api.getSingleBusinessById);
 app.get('/api/jobsSingleBusiness/:id', api.getJobsSingleBusiness);
 
 app.post('/api/addBusiness', api.addBusiness);
 app.post('/api/addBusinessonly', api.addBusinessOnly);
-//______________________ put and delete dont work?????!!!!!
-app.put('api/editbusiness', api.test)
-app.delete('api/deletebusiness/:id', api.test)
+app.put('/api/editbusiness', api.updateBusiness)
+app.delete('/api/deletebusiness/:id', api.deleteBusiness)
 
 
 // all job end points
-app.get('/api/jobs', api.getJobs);
+// app.get('/api/jobs', api.getJobs);
 app.get('/api/job/:id', api.getSingleJob);
 app.get('/api/jobsSingleCustomer/:id', api.getJobsSingleCustomer);
 app.post('/api/job', api.addJob);
 
+
+app.put('/api/job', api.updateJob);
+app.delete('/api/job/:id', api.deleteJob)
 
 
 //     ~~~~~~~~~~ MY  AUTH endpoints    ~~~~~~~~
@@ -102,19 +105,15 @@ app.post('/api/job', api.addJob);
 app.get('/auth', passport.authenticate('auth0'));
 // app.get('/session');
 
-// app.post('/client_auth', api.login);
-// app.post('/login/:id',
-// api.addUser,
-// api.login,
-// api.sessionAuth
-// );
-// app.post('/login/',
-//     api.addUser,
-//     api.login,
-//     api.sessionAuth
-// );
+app.post('/client_auth', api.login);
+app.post('/login/:id',
+api.addUser,
+api.login,
+api.sessionAuth
+);
 
-// app.get('/sessionAuth', api.sessionAuth);
+
+app.get('/sessionAuth', api.sessionAuth);
 
 
 //redirects

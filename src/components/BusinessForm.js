@@ -63,20 +63,20 @@ export default class Form extends Component {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort names
     if (searchName) {
       sortedData = sortedData.filter((e) => {
-        e.businessname.includes(searchName);
+        return (e.businessname.includes(searchName));
       })
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort state
     if (searchState) {
       sortedData = sortedData.filter((e) => {
-        e.state.includes(searchState);
+        return (e.state.includes(searchState));
       })
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    sort city
     
     if (searchCity) {
       sortedData = sortedData.filter((e) => {
-        e.city.includes(searchCity);
+        return (e.city.includes(searchCity));
       })
     }
     console.log(sortedData, 'end of filter')

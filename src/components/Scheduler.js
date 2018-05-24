@@ -2,38 +2,11 @@ import React, { Component } from 'react';
 import '../styles/_Scheduler.scss';
 import BusinessForm from './BusinessForm';
 import ClientForm from './ClientForm';
-// import axios from 'axios';
-
-// const defaultUser = {
-//       firstname: 'Defaultblahblah',
-//       password:'test123blahblah',
-//       uid:1,
-//       lastname: 'FischerDefault',
-//       birthday:'5-7-1977',
-//       comments: 'none',
-//       email: 'davidfisc@hotmailfake.com',
-//       businessname: 'The Testing Cafe',
-//       bid: 1,
-//       link: 'http://www.google.com',
-//       logo: 'https://www.independence.aero/files/images/artikelbilder/cruiser4.jpg',
-//       auth: 'client'
-// }
 
 const logged_in = _ => {
   if (this.props && this.props.user && this.props.user.auth && this.props.user.email) return true;
   else return false;
 }
-
-// const getUser = _=>{
-
-//     if (this.props && this.props.user && this.props.user.auth && this.props.user.email) {
-//       console.log('user logged in')
-//       return this.props.user}
-//     else {
-//      console.log('user not logged in default user initialized') 
-//       return this.state;
-//     }
-// }
 
 class Scheduler extends Component {
   constructor(props) {
@@ -47,9 +20,9 @@ class Scheduler extends Component {
     let userInfo = this.props.user;
     this.setState(userInfo)
     //overwrite all data on state with that on props
-     if ( this.props.user &&this.props.user.auth) { 
+     if ( this.props.user && this.props.user.auth) { 
        
-     } else {this.props.history.push('/login');
+     } else {this.props.history.push('/login/');
       setTimeout(()=>{
         alert('login failure please try again')
       }, 1000)}
